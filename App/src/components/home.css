@@ -1,0 +1,10 @@
+.homePage {
+  background-color: #f8f9fa;
+  color: #333;
+  padding: 20px;
+}
+
+.links .btn {
+  font-size: 1.1rem;
+  padding: 0.8rem 1.5rem;
+}

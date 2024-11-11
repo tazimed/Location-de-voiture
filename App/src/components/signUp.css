@@ -1,0 +1,127 @@
+/* Styles globaux */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Empêche le défilement global */
+  background: #000; /* Fond par défaut avant le début de l'animation */
+  animation: slideShow 15s infinite; /* Animation qui change le fond toutes les 5 secondes */
+}
+
+/* Définition de l'animation du slide show */
+@keyframes slideShow {
+  0% {
+    background-image: url('/public/images/imageinscription.png');
+    background-size: cover;
+    background-position: center;
+  }
+  33% {
+    background-image: url('/public/images/photoinscription2.jpeg');
+    background-size: cover;
+    background-position: center;
+  }
+  66% {
+    background-image: url('/public/images/photoapp.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  100% {
+    background-image: url('/public/images/homePhoto.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* Container principal */
+.inscription {
+  display: flex;
+  flex-wrap: wrap; /* Permet de s'ajuster en cas de petite taille */
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 900px;
+  width: 100%;
+  max-height: 80vh;
+  height: 100%; /* Limite la hauteur du conteneur */
+  overflow-y: auto; /* Ajoute un défilement si le contenu dépasse */
+}
+
+/* Formulaire */
+.form {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 500px; /* Limite la largeur du formulaire */
+}
+
+form fieldset {
+  border: none;
+}
+
+form label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-top: 1rem;
+}
+
+form input[type="text"],
+form input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.3s;
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+  border-color: #ff9505;
+}
+
+/* Boutons */
+.btn {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn[type="submit"] {
+  background-color: #333;
+}
+
+.btn[type="submit"]:hover {
+  background-color: #ff9505;
+}
+
+.btn[type="button"] {
+  background-color: #555;
+}
+
+.btn[type="button"]:hover {
+  background-color: #333;
+}
+

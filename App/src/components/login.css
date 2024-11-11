@@ -1,0 +1,27 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    position: relative;
+    left: 0;
+    top: 0;
+}
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+  }
+.container{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 40%;
+    background: rgb(234, 232, 232);
+    padding-bottom: 30px;
+    padding: 30px;
+}
+.container input{
+    padding: 3px 10px;
+    width: 90%;
+}
