@@ -144,8 +144,8 @@ export default function SignUp() {
               className="btn"
               style={styles.buttonSecondary}
               onClick={gotoLogin}
-              onMouseOver={(e) => (e.target.style.backgroundColor = "#7a828c")} // Hover effect
-              onMouseOut={(e) => (e.target.style.backgroundColor = "#6c757d")} // Reset hover
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#7a828c")} 
+              onMouseOut={(e) => (e.target.style.backgroundColor = "#6c757d")} 
             >
               Connexion
             </button>

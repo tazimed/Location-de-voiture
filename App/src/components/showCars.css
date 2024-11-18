@@ -1,0 +1,99 @@
+/* Container styling */
+.car-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+}
+
+/* Header styling */
+.car-container h1 {
+  font-size: 2rem;
+  color: #343a40;
+  margin-bottom: 20px;
+}
+
+/* Grid styling */
+.car-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* List item styling */
+.car-list-item {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  list-style-type: none;
+}
+
+.car-list-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Car title styling */
+.car-list-item h3 {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #495057;
+}
+
+/* Car image styling */
+.car-image {
+  width: 100%;
+  height: auto;
+  max-height: 150px; /* Restrict image height */
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+/* Placeholder image styling */
+.default-image {
+  width: 300px;
+  height: auto;
+  margin-top: 20px;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+}
+
+/* Error message styling */
+.error {
+  color: #dc3545;
+  font-size: 1.1rem;
+  margin: 10px 0;
+}
+
+/* Loading message styling */
+.loading {
+  color: #007bff;
+  font-size: 1.2rem;
+}
+
+/* Retry button styling */
+.retry-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.retry-button:hover {
+  background-color: #0056b3;
+}

@@ -11,19 +11,19 @@ export default function AddCar() {
     couleur: "",
     nbr_places: "",
     transmission: "",
-    image: "",
+    prix : "",
+    image: null,
   });
-function  uploadImage() {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend=()=>{
-      setCarInformation((prev)=>({
-        ...prev ,
-        image:reader.result 
-      }))
-      }
-    }
+
+  // function uploadImage(event) {
+  //   const file = event.target.files[0];
+  //   console.log(file);
+  //   setCarInformation((prev) => ({
+  //     ...prev,
+  //     image: file,
+  //   }));
+  // }
+
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -37,14 +37,30 @@ function  uploadImage() {
       !carInformation.couleur ||
       !carInformation.nbr_places ||
       !carInformation.transmission ||
+      !carInformation.prix ||
       !carInformation.image
     ) {
       setMessage("Tous les champs doivent être remplis.");
       return;
     }
 
+    const formData = new FormData();
+    formData.append("matricule", carInformation.matricule);
+    formData.append("marque", carInformation.marque);
+    formData.append("model", carInformation.model);
+    formData.append("couleur", carInformation.couleur);
+    formData.append("nbr_places", carInformation.nbr_places);
+    formData.append("transmission", carInformation.transmission);
+    formData.append("prix", carInformation.prix);
+    formData.append("image", carInformation.image);
+    
+
     axios
-      .post("http://localhost:4000/addCars", carInformation)
+      .post("http://localhost:4000/addCars", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         if (res.data.Status === "success") {
           setMessage("Voiture ajoutée avec succès !");
@@ -158,19 +174,34 @@ function  uploadImage() {
                   }
                 />
               </div>
-
               <div className="mb-3">
-                <label className="form-label">Image URL</label>
+                <label className="form-label">Prix</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={carInformation.prix}
+                  onChange={(e) =>
+                    setCarInformation((prev) => ({
+                      ...prev,
+                      prix: e.target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Image</label>
                 <input
                   accept="image/*"
-                  onChange={uploadImage}
-                  id="idf"
+                  onChange={(e) =>
+                    setCarInformation((prev) => ({
+                      ...prev,
+                      image: e.target.files[0],
+                    }))
+                  }
                   type="file"
                   className="form-control"
                 />
               </div>
-
-              
               <button type="submit" className="btn btn-primary w-100">
                 Ajouter
               </button>
@@ -184,7 +215,7 @@ function  uploadImage() {
             </button>
 
             {message && (
-              <p className="mt-3 text-center text-danger">{message}</p>
+              <p className="mt-3 text-center text-success">{message}</p>
             )}
           </div>
         </div>

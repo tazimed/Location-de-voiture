@@ -1,19 +1,19 @@
 import express from "express";
 import mysql from "mysql";
 import cors from "cors";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import cookieParser from "cookie-parser";
+import multer from "multer";
 
 const server = express();
-server.use(express.json());
+
+// Middleware
+server.use(express.json({ limit: "50mb" }));
+server.use(express.urlencoded({ limit: "50mb", extended: true }));
 server.use(cors());
 server.use(cookieParser());
 
-server.listen(4000, () => {
-  console.log("serever listening !");
-});
-
+// MySQL Connection
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -29,8 +29,12 @@ db.connect((err) => {
   console.log("Connected to database as ID", db.threadId);
 });
 
+// Multer Configuration
+const storage = multer.memoryStorage();
+const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } });
+
+// Signup Route
 server.post("/signup", (req, res) => {
-  console.log("Received request data:", req.body);
   const sqlClient =
     "INSERT INTO clients (`cin`, `nom`, `prenom`, `adress`, `tel`, `email`, `password`) VALUES (?)";
   const saltRounds = 10;
@@ -61,14 +65,13 @@ server.post("/signup", (req, res) => {
   });
 });
 
+// Login Route
 server.post("/login", (req, res) => {
-  console.log("Received request data:", req.body);
-
   const sqlLogin = "SELECT email, password FROM clients WHERE email = ?";
 
   db.query(sqlLogin, [req.body.email], (err, data) => {
     if (err) {
-      console.error("Login Error in server:", err);
+      console.error("Login Error:", err);
       return res.status(500).json({ Error: "Error during login" });
     }
     if (data.length > 0) {
@@ -93,11 +96,17 @@ server.post("/login", (req, res) => {
   });
 });
 
-server.post("/addCars", (req, res) => {
-  console.log("Received car data:", req.body);
+// Add Car Route
+server.post("/addCars", upload.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ Error: "No image file uploaded" });
+  }
 
   const sqlCar =
-    "INSERT INTO voiture (`matricule`, `marque`, `model`, `couleur`, `nombrePlaces`, `transmission`, `image`) VALUES (?)";
+    "INSERT INTO voiture (`matricule`, `marque`, `model`, `couleur`, `nombrePlaces`, `transmission`,`prix`, `image`) VALUES (?)";
+
+  const imageBuffer = req.file.buffer;
+
   const values = [
     req.body.matricule,
     req.body.marque,
@@ -105,7 +114,8 @@ server.post("/addCars", (req, res) => {
     req.body.couleur,
     parseInt(req.body.nbr_places),
     req.body.transmission,
-    req.body.image,
+    parseFloat(req.body.prix),
+    imageBuffer,
   ];
 
   db.query(sqlCar, [values], (err, result) => {
@@ -118,4 +128,27 @@ server.post("/addCars", (req, res) => {
     }
     return res.status(200).json({ Status: "success", Result: result });
   });
+});
+
+// Show Cars Route
+server.get("/showCars", (req, res) => {
+  const getCars =
+    "SELECT marque, model, prix, nombrePlaces, transmission, image FROM voiture";
+
+  db.query(getCars, (err, result) => {
+    if (err) {
+      console.error("Error fetching cars:", err);
+      return res.status(500).json({ Error: "Error fetching data" });
+    }
+    const cars = result.map((car) => ({
+      ...car,
+      image: car.image.toString("base64"),
+    }));
+    res.status(200).json({ Status: "success", Result: cars });
+  });
+});
+
+// Start the server
+server.listen(4000, () => {
+  console.log("Server listening on port 4000!");
 });
