@@ -9,7 +9,6 @@ import ShowCars from "./components/showCars";
 function App() {
   return (
     <Router>
-      {/* <Navbar /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

@@ -11,18 +11,9 @@ export default function AddCar() {
     couleur: "",
     nbr_places: "",
     transmission: "",
-    prix : "",
+    prix: "",
     image: null,
   });
-
-  // function uploadImage(event) {
-  //   const file = event.target.files[0];
-  //   console.log(file);
-  //   setCarInformation((prev) => ({
-  //     ...prev,
-  //     image: file,
-  //   }));
-  // }
 
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -53,7 +44,6 @@ export default function AddCar() {
     formData.append("transmission", carInformation.transmission);
     formData.append("prix", carInformation.prix);
     formData.append("image", carInformation.image);
-    
 
     axios
       .post("http://localhost:4000/addCars", formData, {
@@ -191,6 +181,7 @@ export default function AddCar() {
               <div className="mb-3">
                 <label className="form-label">Image</label>
                 <input
+                  name="image"
                   accept="image/*"
                   onChange={(e) =>
                     setCarInformation((prev) => ({

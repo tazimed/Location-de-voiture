@@ -3,27 +3,26 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap CSS is included
+import "bootstrap/dist/css/bootstrap.min.css"; 
 
 export default function Login() {
   const navigate = useNavigate();
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [error, setError] = useState(""); 
+  axios.defaults.withCredentials=true ;
   function handleSubmitLogin(event) {
     event.preventDefault();
     axios
       .post("http://localhost:4000/login", loginData)
       .then((res) => {
-        if (res.data.Status == "Success") {
-          console.log("Login successful", res);
+        if (res.data.Status === "Success") {
+          navigate("/showCars");
         } else {
-          console.log("Login Failed");
+          setError("Login failed, please check your credentials.");
         }
       })
       .catch((err) => {
+        setError("Error logging in. Please try again later.");
         console.error("Error logging in:", err);
       });
   }
@@ -34,12 +33,12 @@ export default function Login() {
 
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div
-        className="card shadow-lg p-4"
-        style={{ maxWidth: "400px", width: "100%" }}
-      >
+      <div className="card shadow-lg p-4" style={{ maxWidth: "400px", width: "100%" }}>
         <h2 className="text-center mb-4">Log in</h2>
         <div className="underline mb-4"></div>
+
+        {/* Error Message Display */}
+        {error && <div className="alert alert-danger">{error}</div>}
 
         <form onSubmit={handleSubmitLogin}>
           <div className="mb-3">
@@ -50,6 +49,7 @@ export default function Login() {
               id="email"
               type="email"
               className="form-control"
+              value={loginData.email}
               onChange={(event) =>
                 setLoginData({ ...loginData, email: event.target.value })
               }
@@ -65,6 +65,7 @@ export default function Login() {
               id="password"
               type="password"
               className="form-control"
+              value={loginData.password}
               onChange={(event) =>
                 setLoginData({ ...loginData, password: event.target.value })
               }

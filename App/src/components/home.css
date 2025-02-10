@@ -1,10 +1,27 @@
-.homePage {
-  background-color: #f8f9fa;
-  color: #333;
-  padding: 20px;
+body,
+html {
+  height: 100%;
+  margin: 0;
 }
 
-.links .btn {
-  font-size: 1.1rem;
-  padding: 0.8rem 1.5rem;
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1; 
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+}
+
+@media (max-width: 800px) {
+  .imageSection{
+      display: none;
+  }
 }
